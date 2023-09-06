@@ -1,0 +1,37 @@
+def unit = _ : ()
+def id = λx.x : ∀a.a -> a
+
+def true = λx.λy.x : bool
+def false = λx.λy.y : bool
+def cond = λc.λx.λy.(c x y) : ∀a.bool -> a -> a -> a
+
+def not = λx.(x false true) : bool -> bool
+def and = λx.λy.(x y x) : bool -> bool -> bool
+def or = λx.λy.(x x y) : bool -> bool -> bool
+def xor = λx.λy.(x (not y) y) : bool -> bool -> bool
+
+# church numerals
+def succ = λn.λs.λz.(s (n s z)) : nat -> nat
+def pred = λn.λs.λz.(n (λg.λh.(h (g s))) (λu.z) (λu.u)) : nat -> nat
+def iszero = λn.(n (λx.false) true) : nat -> bool
+
+def 0 = λs.λz.z : nat
+def 1 = succ 0  : nat
+def 2 = succ 1  : nat
+def 3 = succ 2  : nat
+def 4 = succ 3  : nat
+def 5 = succ 4  : nat
+def 6 = succ 5  : nat
+def 7 = succ 6  : nat
+def 8 = succ 7  : nat
+def 9 = succ 8  : nat
+
+def add = λm.λn.(m succ n) : nat -> nat -> nat
+def sub = λm.λn.(n pred m) : nat -> nat -> nat
+def mul = λm.λn.(m (add n) 0) : nat -> nat -> nat
+def pow = λm.λn.(n m) : nat -> nat -> nat
+
+# pairs 
+def pair = λm.λn.λf.(f m n) : ∀[a,b].a -> b -> (a, b)
+def fst = λp.(p true) : ∀[a,b].(a, b) -> a
+def snd = λp.(p false) : ∀[a,b].(a, b) -> b
